@@ -2,7 +2,7 @@ import React from 'react'
 import FormUser from './FormUser'
 import Button from 'react-bootstrap/esm/Button'
 import  {useState} from 'react';
-
+import Perfiles from "./tablaUsuarios";
 
 function Users() {
 
@@ -14,7 +14,10 @@ function Users() {
 
     return(
        <div>
-           <h1>Aqui va el listado</h1>
+           <br></br>
+           <h3 className="text-center">Usuarios</h3>
+           <br></br>
+            <Perfiles />
           <Button onClick={handleButtonClick} variant="outline-primary">Agregar</Button>      
          
 

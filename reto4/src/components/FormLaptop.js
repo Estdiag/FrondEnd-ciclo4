@@ -7,6 +7,7 @@ import Formulario from "./Formulario";
 function FormLaptop() {
   return (
     <Form>
+      <br></br>
       <h3 className="text-center">REGISTRAR UN EQUIPO</h3>
       <Formulario label="Marca" placeholder="Escribe la marca" type="text" />
       <Formulario label="Modelo" placeholder="Ingrese el modelo" type="text" />

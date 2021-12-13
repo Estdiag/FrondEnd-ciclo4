@@ -25,7 +25,9 @@ function NavBar() {
         <Nav.Link href="/laptops">Equipos</Nav.Link>
         <Nav.Link  href="/users">Usuarios</Nav.Link>
         <Nav.Link  href="/orders">Ordenes</Nav.Link>
-        
+        {/* <Nav.Link   href="/Perfiles">Perfiles</Nav.Link> */}
+        <Nav.Link   href="/Pedidos">Pedidos</Nav.Link>
+        <Nav.Link   href="/Productos">Productos</Nav.Link>
       </Nav>
       <Nav>
         <Nav.Link  href="/login">Iniciar Sesión</Nav.Link>
