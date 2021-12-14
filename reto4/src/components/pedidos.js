@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import React from "react";
-
+import Button from 'react-bootstrap/esm/Button'
 class Pedidos extends React.Component{
     render(){
         return(
@@ -26,6 +26,7 @@ class Pedidos extends React.Component{
                             <th></th>
                     </tbody>
                 </Table>
+                <Button href='./FormOrder' variant="outline-primary">Agregar</Button>
             </>
         );
     }

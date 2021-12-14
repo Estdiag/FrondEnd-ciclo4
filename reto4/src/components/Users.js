@@ -4,11 +4,7 @@ import { useHistory } from "react-router-dom";
 import Perfiles from "./tablaUsuarios";
 
 function Users() {
-    const history = useHistory();
-    const routeChange = () =>{ 
-      let path = `FormUser`; 
-      history.push(path);
-    };
+
 
     return(
        <div>
@@ -16,7 +12,7 @@ function Users() {
            <h3 className="text-center">Usuarios</h3>
            <br></br>
             <Perfiles />
-          <Button onClick={routeChange} variant="outline-primary">Agregar</Button>      
+          <Button href='./FormUser' variant="outline-primary">Agregar</Button>
          
        </div>
     )

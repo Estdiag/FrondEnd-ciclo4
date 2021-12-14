@@ -47,7 +47,7 @@ const putRequest = async (url, json, errorCallback) => {
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(json)
     }).catch(e => executeCallBack(errorCallback));
-    return response.status;
+    return response;
 }
 
 //Funcion que realiza petición delete a la url solicitada con el id especificado
@@ -65,7 +65,7 @@ const deleteRequest = async(url, id, errorCallback) => {
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(data)
     }).catch(e => executeCallBack(errorCallback));
-    return response.status;
+    return response;
 }
 
 const executeCallBack = (callback) => {

@@ -2,30 +2,39 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Buttons from "./Buttons";
 import Formulario from "./Formulario";
-import { postRequest } from "../Requests";
+import { postRequest, putRequest } from "../Requests";
 import { withAlert } from 'react-alert'
 
 import HOST from "../HostConfig";
 
-const SAVE_URL = HOST+'/laptop/new';
+const SAVE_URL =`${HOST}/laptop/new`;
+const UPDATE_URL =`${HOST}/laptop/update`;
 
 class FormLaptop extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      marca: '',
-      modelo: '',
-      procesador: '',
-      so: '',
-      descripcion: '',
-      memoria: '',
-      disco: '',
-      disponible: 'true',
-      precio: 0,
-      cantidad: 0
-    };
+    if(props.props)
+      this.state=props.props;
+    else
+      this.state = {
+        id: null,
+        brand: '',
+        model: '',
+        procesor: '',
+        os: '',
+        description: '',
+        memory: '',
+        hardDrive: '',
+        availability: 'true',
+        price: 0,
+        quantity: 0,
+        editing: false
+      };
+    
     this.handleChanges = this.handleChanges.bind(this);
     this.saveLaptop = this.saveLaptop.bind(this);
+    this.submitClick = this.submitClick.bind(this);
+    this.cancelClick = this.cancelClick.bind(this);
 
   }
 
@@ -39,79 +48,98 @@ class FormLaptop extends React.Component {
     event.preventDefault();
     const alert = this.props.alert;
     let laptop = {
-      brand: this.state.marca,
-      model: this.state.modelo,
-      procesor: this.state.procesador,
-      os: this.state.so,
-      description: this.state.descripcion,
-      memory: this.state.memoria,
-      hardDrive: this.state.disco,
-      availability: this.state.disponible === "true",
-      price: this.state.precio,
-      quantity: this.state.cantidad,
-      photography: ""
+      id: this.state.id,
+      brand: this.state.brand,
+      model: this.state.model,
+      procesor: this.state.procesor,
+      os: this.state.os,
+      description: this.state.description,
+      memory: this.state.memory,
+      hardDrive: this.state.hardDrive,
+      availability: this.state.availability === "true",
+      price: this.state.price,
+      quantity: this.state.quantity,
+      photography: " "
     };
-
-    let request = await postRequest(SAVE_URL, laptop);
+    let request;
+    if(this.state.editing)
+      request = await putRequest(UPDATE_URL, laptop);
+    else
+      request = await postRequest(SAVE_URL, laptop);
+    
     if(request.status != 201)
       alert.error("Ha ocurrido un error al guardar el producto");
     else
       alert.success("Se ha guardado el producto");
+    
+    this.submitClick();
+  }
+
+  submitClick(sucessState) {
+    if(this.state.editing)
+      this.props.closeEdit(sucessState);
+  }
+
+  cancelClick(){
+    if(this.state.editing)
+      this.props.closeEdit();
+    else
+      this.props.history.push('laptops')
   }
 
   render () {
     return (
-      <Form onSubmit={this.saveLaptop}>
+      <Form onSubmit={async (e) => await this.saveLaptop(e)}>
         <br></br>
-        <h3 className="text-center">REGISTRAR UN EQUIPO</h3>
+        <h3 className="text-center">{this.state.editing?"EDITAR UN EQUIPO":"REGISTRAR UN EQUIPO"}</h3>
         <Formulario label="Marca" 
           placeholder="Escribe la marca" 
           type="text"
-          value={this.state.marca} 
-          onchange={this.handleChanges('marca')}/>
+          value={this.state.brand} 
+          onchange={this.handleChanges('brand')}/>
         <Formulario label="Modelo" 
           placeholder="Ingrese el modelo" 
           type="text" 
-          value={this.state.modelo} 
-          onchange={this.handleChanges('modelo')}/>
+          value={this.state.model} 
+          onchange={this.handleChanges('model')}/>
         <Formulario
           label="Procesador"
           placeholder="Cual es el procesador"
           type="text"
-          value={this.state.procesador} 
-          onchange={this.handleChanges('procesador')}
+          value={this.state.procesor} 
+          onchange={this.handleChanges('procesor')}
         />
         <Formulario 
           label="Sistema Operativo"
           placeholder="SO" 
           type="text"
-          value={this.state.so} 
-          onchange={this.handleChanges('so')}
+          value={this.state.os} 
+          onchange={this.handleChanges('os')}
         />
         <Formulario
           label="Descripción"
           placeholder="Ingrese una descripción"
           type="text"
-          value={this.state.descripcion} 
-          onchange={this.handleChanges('descripcion')}
+          value={this.state.description} 
+          onchange={this.handleChanges('description')}
         />
         <Formulario 
           label="Memoria" 
           placeholder="Memoria" 
           type="text"
-          value={this.state.memoria} 
-          onchange={this.handleChanges('memoria')} />
+          value={this.state.memory} 
+          onchange={this.handleChanges('memory')} />
         <Formulario 
           label="Disco Duro" 
           placeholder="Disco Duro" 
           type="text"
-          value={this.state.disco} 
-          onchange={this.handleChanges('disco')} />
+          value={this.state.hardDrive} 
+          onchange={this.handleChanges('hardDrive')} />
         <Form.Group className="col-md-5 mx-auto">
           <Form.Label>¿Hay Disponibilidad?</Form.Label>
           <Form.Select aria-label="Default select example" 
-            defaultValue={this.state.disponible} 
-            onChange={this.handleChanges('disponible')}>
+            defaultValue={this.state.availability} 
+            onChange={this.handleChanges('availability')}>
             <option>¿Está disponible?</option>
             <option value="true">SI</option>
             <option value="false">NO</option>
@@ -122,18 +150,19 @@ class FormLaptop extends React.Component {
           label="Precio"
           placeholder="Precio"
           type="number"
-          value={this.state.precio} 
-          onchange={this.handleChanges('precio')} />
+          value={this.state.price} 
+          onchange={this.handleChanges('price')} />
         <Formulario
           label="Cantidad"
           placeholder="¿Cuántos hay en existencia?"
           type="number"
-          value={this.state.cantidad} 
-          onchange={this.handleChanges('cantidad')}
+          value={this.state.quantity} 
+          onchange={this.handleChanges('quantity')}
         />
 
         <br />
-        <Buttons/>
+        
+        <Buttons submitClick={this.submitClick} cancelClick={this.cancelClick}/>
         
       </Form>
     );
