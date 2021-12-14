@@ -11,9 +11,11 @@ import Perfiles from './components/tablaUsuarios';
 import Pedidos from './components/pedidos';
 import Productos from './components/Productos';
 import FormOrders from './components/FormOrder';
+import Formuser from './components/FormUser';
 
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
+import FormUser from './components/FormUser';
 
 const alertOptions = {
   position: positions.TOP_RIGHT,
@@ -35,6 +37,7 @@ function App() {
       <Route exact path="/Perfiles" component={Perfiles} />
       <Route exact path="/Pedidos" component={Pedidos}/>
       <Route exact path="/Productos" component={Productos}/>
+      <Route exact path="/FormUser" component={FormUser}/>
     </AlertProvider>
   </>)
 }

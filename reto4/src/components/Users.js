@@ -1,16 +1,14 @@
 import React from 'react'
-import FormUser from './FormUser'
 import Button from 'react-bootstrap/esm/Button'
-import  {useState} from 'react';
+import { useHistory } from "react-router-dom";
 import Perfiles from "./tablaUsuarios";
 
 function Users() {
-
-    const [buttonClicked, setButtonClicked] = useState(false);
-
-    let handleButtonClick = () => {
-        setButtonClicked(true)
-    }
+    const history = useHistory();
+    const routeChange = () =>{ 
+      let path = `FormUser`; 
+      history.push(path);
+    };
 
     return(
        <div>
@@ -18,10 +16,8 @@ function Users() {
            <h3 className="text-center">Usuarios</h3>
            <br></br>
             <Perfiles />
-          <Button onClick={handleButtonClick} variant="outline-primary">Agregar</Button>      
+          <Button onClick={routeChange} variant="outline-primary">Agregar</Button>      
          
-
-            {buttonClicked ? <FormUser/> : null}
        </div>
     )
 }
