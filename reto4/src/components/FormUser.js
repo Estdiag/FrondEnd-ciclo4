@@ -19,8 +19,8 @@ class FormUser extends React.Component {
         id: null,
         identification: '',
         name: '',
-        birthtDay: '',
-        monthBirthtDay: '',
+        birthDay: new Date().toISOString().substr(0, 10),
+        monthBirthDay: '',
         address: '',
         cellPhone: '',
         email: '',
@@ -43,13 +43,14 @@ class FormUser extends React.Component {
 
   saveUser = async (event) => {
     event.preventDefault();
+    event.target.checkValidity();
     const alert = this.props.alert;
     let user = {
       id: this.state.id,
       identification: this.state.identification,
       name: this.state.name,
-      birthtDay: this.state.birthtDay,
-      monthBirthtDay: new Date(this.state.birthtDay).getMonth() + 1,
+      birthDay: this.state.birthDay,
+      monthBirthDay: new Date(this.state.birthDay).getMonth() + 1,
       address: this.state.address,
       cellPhone: this.state.cellPhone,
       email: this.state.email,
@@ -107,8 +108,8 @@ class FormUser extends React.Component {
             label="Fecha Nacimiento"
             placeholder="Escriba su fecha de nacimiento"
             type="date"
-            value={new Date(this.state.birthtDay).toISOString().substr(0,10)} 
-            onchange={this.handleChanges('birthtDay')}
+            value={new Date(this.state.birthDay).toISOString().substr(0, 10)}
+            onchange={this.handleChanges('birthDay')}
           />
           <Formulario
             label="Dirección"

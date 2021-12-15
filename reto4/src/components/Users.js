@@ -110,7 +110,7 @@ class Users extends React.Component {
 
                 <Modal show={this.state.showEditModal}>
                     <Modal.Header>
-                        <Modal.Title>Editar Producto</Modal.Title>
+                        <Modal.Title>Editar Usuario</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <FormUser props={ {...this.state.editingItem, ...{editing: true} } } closeEdit={this.closeModal}/>

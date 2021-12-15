@@ -8,7 +8,7 @@ function Buttons({submitClick, cancelClick}) {
         <Button variant="secondary" type="submit" onClick={submitClick}>
           Aceptar
         </Button>
-        <Button variant="outline-secondary" onClick={cancelClick}>Cancelar</Button>
+        <Button type="button" variant="outline-secondary" onClick={cancelClick}>Cancelar</Button>
       </Stack>
     )
 }
