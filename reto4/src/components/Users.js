@@ -30,7 +30,8 @@ class Users extends React.Component {
 
     openModal(event){
         let id = event.target.dataset.id;
-        let item = this.state.rows.find( r => r.id == id)
+        let item = this.state.rows.find( r => `${r.id}` === id)
+        item.birthtDay = new Date(item.birthtDay).toISOString();
         this.setState( {editingItem: item, showEditModal: true} );
     }
 

@@ -19,8 +19,8 @@ class FormUser extends React.Component {
         id: null,
         identification: '',
         name: '',
-        birthDay: new Date().toISOString().substr(0, 10),
-        monthBirthDay: '',
+        birthtDay: new Date().toISOString(),
+        monthBirthtDay: '',
         address: '',
         cellPhone: '',
         email: '',
@@ -33,6 +33,7 @@ class FormUser extends React.Component {
     this.saveUser = this.saveUser.bind(this);
     this.submitClick = this.submitClick.bind(this);
     this.cancelClick = this.cancelClick.bind(this);
+    this.getValidDate = this.getValidDate.bind(this);
   }
 
   handleChanges = (prop) => (event) => {
@@ -40,17 +41,18 @@ class FormUser extends React.Component {
     newState[prop] = event.target.value;
     this.setState(newState); 
   }
-
+  
   saveUser = async (event) => {
     event.preventDefault();
     event.target.checkValidity();
+    
     const alert = this.props.alert;
     let user = {
       id: this.state.id,
       identification: this.state.identification,
       name: this.state.name,
-      birthDay: this.state.birthDay,
-      monthBirthDay: new Date(this.state.birthDay).getMonth() + 1,
+      birthtDay: this.state.birthtDay,
+      monthBirthtDay: new Date(this.state.birthtDay).getMonth() + 1,
       address: this.state.address,
       cellPhone: this.state.cellPhone,
       email: this.state.email,
@@ -84,6 +86,14 @@ class FormUser extends React.Component {
       this.props.history.push('users')
   }
   
+  getValidDate(){
+    try{
+      let date = new Date(this.state.birthtDay).toISOString().substr(0, 10);
+      this.setState( {birthtDay: date} );
+    }catch(Exception) {}
+    
+  }
+
   render() {
     return (
       <>
@@ -108,8 +118,8 @@ class FormUser extends React.Component {
             label="Fecha Nacimiento"
             placeholder="Escriba su fecha de nacimiento"
             type="date"
-            value={new Date(this.state.birthDay).toISOString().substr(0, 10)}
-            onchange={this.handleChanges('birthDay')}
+            value={new Date(this.state.birthtDay).toISOString().substr(0, 10)}
+            onchange={this.getValidDate}
           />
           <Formulario
             label="Dirección"
@@ -143,7 +153,7 @@ class FormUser extends React.Component {
           
           <Form.Group className="col-md-5 mx-auto">
             <Form.Label>¿Tipo de usuario?</Form.Label>
-            <Form.Select defaultValue={this.state.type} onchange={this.handleChanges('type')}>
+            <Form.Select defaultValue={this.state.type} onChange={this.handleChanges('type')}>
               <option>Selecciona un tipo de usuario</option>
               <option value="COORD">Coordinador de zona</option>
               <option value="ASE">Asesor comercial</option>

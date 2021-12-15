@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Buttons from "./Buttons";
-import { getJson, postRequest, putRequest } from "../Requests";
+import { getJson, postRequest } from "../Requests";
 import Modal from 'react-bootstrap/Modal';
 import { withAlert } from "react-alert";
 
@@ -87,7 +87,7 @@ class FormOrder extends React.Component {
   async loadProducts() {
     let productsJson = await getJson(PRODUCTS_URL);
     let products = [];
-    const checkSelected = (id) => this.state.orderProducts.some(x => x.id == id);
+    const checkSelected = (id) => this.state.orderProducts.some(x => `${x.id}` === `${id}`);
     Object.values(productsJson).forEach(prod => products.push( { ...{checked: checkSelected(prod.id)}, ...prod}));
     this.setState({ products: products });
   }
@@ -95,7 +95,7 @@ class FormOrder extends React.Component {
   hanldeChecboxChanged(event){
     let id = event.target.dataset.id;
     let products = this.state.products.map(prod => {
-      if(prod.id == id)
+      if(`${prod.id}` === id)
         prod.checked = event.target.checked;
       return prod;
     })

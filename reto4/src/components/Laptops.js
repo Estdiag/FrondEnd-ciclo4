@@ -28,7 +28,7 @@ class Laptops extends React.Component {
     openModal(event){
         let id = event.target.dataset.id;
         this.setState({showEditModal: true});
-        let item = this.state.rows.find( r => r.id == id)
+        let item = this.state.rows.find( r => `${r.id}` === id)
         this.setState( {editingItem: item} );
     }
 
