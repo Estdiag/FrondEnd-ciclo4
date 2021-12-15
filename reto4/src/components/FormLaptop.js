@@ -67,7 +67,7 @@ class FormLaptop extends React.Component {
     else
       request = await postRequest(SAVE_URL, laptop);
     
-    if(request.status != 201)
+    if(request.status !== 201)
       alert.error("Ha ocurrido un error al guardar el producto");
     else
       alert.success("Se ha guardado el producto");

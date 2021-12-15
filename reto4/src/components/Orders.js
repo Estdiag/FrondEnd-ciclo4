@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import React from "react";
 import Button from 'react-bootstrap/esm/Button'
-class Pedidos extends React.Component{
+class Orders extends React.Component{
     render(){
         return(
             <>
@@ -32,4 +32,4 @@ class Pedidos extends React.Component{
     }
 }
 
-export default Pedidos;
+export default Orders;

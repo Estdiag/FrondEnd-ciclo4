@@ -7,9 +7,8 @@ import Home from './components/Home';
 
 import SignUp from './components/SignUp';
 import Users from './components/Users';
-import Perfiles from './components/tablaUsuarios';
-import Pedidos from './components/pedidos';
-import Productos from './components/Productos';
+import Pedidos from './components/Orders';
+import Laptops from './components/Laptops';
 import FormUser from './components/FormUser';
 import FormOrder from './components/FormOrder';
 import FormLaptop from './components/FormLaptop';
@@ -32,8 +31,8 @@ function App() {
       <Route exact path="/" component={Home}/>
       <Route exact path="/login" component={Home}/>
       <Route exact path="/signup" component={SignUp}/>
-      <Route exact path="/laptops" component={Productos}/>
-      <Route exact path="/users" component={Perfiles} />
+      <Route exact path="/laptops" component={Laptops}/>
+      <Route exact path="/users" component={Users} />
       <Route exact path="/orders" component={Pedidos}/>
       <Route exact path="/FormUser" component={FormUser}/>
       <Route exact path="/FormOrder" component={FormOrder} />

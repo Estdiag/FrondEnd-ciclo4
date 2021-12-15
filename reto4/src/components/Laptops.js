@@ -1,7 +1,6 @@
 import React from "react";
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
-import ModalDialog from 'react-bootstrap/ModalDialog'
 import Button from 'react-bootstrap/esm/Button';
 import FormLaptop from './FormLaptop';
 import { getJson, deleteRequest } from "../Requests";
@@ -10,7 +9,7 @@ import HOST from "../HostConfig";
 
 const GET_URL = `${HOST}/laptop/all`;
 const DELETE_URL = `${HOST}/laptop/`;
-class Productos extends React.Component {
+class Laptops extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,7 +42,7 @@ class Productos extends React.Component {
         const alert = this.props.alert;
         let id = event.target.dataset.id;
         let request = await deleteRequest(`${DELETE_URL}${id}`);
-        if (request.status != 204)
+        if (request.status !== 204)
             alert.error("Ha ocurrido un error al eliminar el producto");
         else
             alert.success("Se ha eliminado el producto");
@@ -128,4 +127,4 @@ class Productos extends React.Component {
     }
 }
 
-export default withAlert()(Productos);
+export default withAlert()(Laptops);
