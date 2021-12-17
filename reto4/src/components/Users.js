@@ -6,11 +6,13 @@ import Modal from 'react-bootstrap/Modal';
 import { getJson, deleteRequest } from "../Requests";
 import { withAlert } from "react-alert";
 import FormUser from './FormUser'
+import UserFilters from './UserFilters'
 
 import HOST from "../HostConfig";
 
 const GET_URL = `${HOST}/user/all`;
 const DELETE_URL = `${HOST}/user/`;
+const BIRTHDAY_URL = `${HOST}/user/birthday/`;
 
 class Users extends React.Component {
     constructor(props) {
@@ -18,13 +20,16 @@ class Users extends React.Component {
         this.state = {
             rows: [],
             showEditModal: false,
-            editingItem: null
+            editingItem: null,
+            filtering: false
         };
 
         this.getUsers = this.getUsers.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
+        
         this.getUsers();
     }
 
@@ -51,11 +56,29 @@ class Users extends React.Component {
         this.getUsers();
     }
 
-    async getUsers() {
-        let users = await getJson(GET_URL);
-        let rows = []
+    async getUsers(URL) {
+        let url = URL||GET_URL;
+        let users = await getJson(url);
+        let rows = [];      
+        
         Object.values(users).map(row => rows.push(row));
         this.setState({ rows: rows });
+    }
+
+    handleFilter(filter){
+        let hasActiveFilters;
+        hasActiveFilters = filter? true : false;
+
+        this.setState({ filtering: hasActiveFilters });
+        
+        if(!hasActiveFilters) {this.getUsers(); return };
+
+        if(filter.filterName === "Cumpleaños"){
+            let month = parseInt(filter.value);
+            month = String(month).padStart(2, '0');
+            this.getUsers(BIRTHDAY_URL+month);
+        }
+
     }
 
     render() {
@@ -64,6 +87,7 @@ class Users extends React.Component {
                 <br></br>
                 <h3 className="text-center">Usuarios</h3>
                 <br></br>
+                <UserFilters onFilterApply={this.handleFilter}/>
                 <Table striped bordered hover size="sm">
                     <thead>
                         <tr>

@@ -6,6 +6,7 @@ import FormLaptop from './FormLaptop';
 import { getJson, deleteRequest } from "../Requests";
 import { withAlert } from "react-alert";
 import HOST from "../HostConfig";
+import FiltersContainer from "./FiltersContainer";
 
 const GET_URL = `${HOST}/laptop/all`;
 const DELETE_URL = `${HOST}/laptop/`;
@@ -64,6 +65,7 @@ class Laptops extends React.Component {
                     Productos en venta
                 </h2>
                 <br></br>
+                <FiltersContainer />
                 <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
