@@ -27,8 +27,18 @@ class FiltersContainer extends React.Component {
 
     handleFilterChange = (filterName) => (event) => {
         let activeFilters = this.state.activeFilters;
+        let value = event.target.value;
         if(!activeFilters.some(f => f.filterName === filterName))
-            activeFilters.push({filterName, value: event.target.value});
+            activeFilters.push({filterName, value});
+        else {
+            let index = activeFilters.findIndex(f => f.filterName === filterName);
+            activeFilters[index] = {filterName, value};
+        }
+
+        if( value === "" || value === null || value === undefined || isNaN(value) ){
+            let removeIndex = activeFilters.findIndex(f => f.filterName === filterName);
+            activeFilters.pop(removeIndex);
+        }
         
         this.setState( {activeFilters: activeFilters});
     }
@@ -59,7 +69,7 @@ class FiltersContainer extends React.Component {
                     {
                         this.state.activeFilters.map(item => (
                             <Nav.Item>
-                                <Badge bg="primary">{item.filterName}</Badge>
+                                <Badge bg="primary">{item.filterName+": "+item.value}</Badge>
                             </Nav.Item>
                         ))
                     }
@@ -86,8 +96,8 @@ class FiltersContainer extends React.Component {
                         }
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button onClick={this.applyFilters}>Aplicar</Button>
                     </Modal.Footer>
-                    <Button onClick={this.applyFilters}>Aplicar</Button>
                 </Modal>
             </>
         );

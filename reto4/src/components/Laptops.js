@@ -6,10 +6,12 @@ import FormLaptop from './FormLaptop';
 import { getJson, deleteRequest } from "../Requests";
 import { withAlert } from "react-alert";
 import HOST from "../HostConfig";
-import FiltersContainer from "./FiltersContainer";
+import LaptopFilters from "./LaptopFilters";
 
 const GET_URL = `${HOST}/laptop/all`;
 const DELETE_URL = `${HOST}/laptop/`;
+const DESCRIPTION_UTL = `${HOST}/laptop/description/`;
+const PRICE_URL = `${HOST}/laptop/price/`;
 class Laptops extends React.Component {
     constructor(props) {
         super(props);
@@ -23,6 +25,8 @@ class Laptops extends React.Component {
         this.deleteLaptop = this.deleteLaptop.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
+        
         this.getLaptops();
     }
 
@@ -50,11 +54,28 @@ class Laptops extends React.Component {
         this.getLaptops();
     }
 
-    async getLaptops() {
-        let laptops = await getJson(GET_URL);
+    async getLaptops(URL) {
+        let url = URL||GET_URL;
+        let laptops = await getJson(url);
         let rows = []
         Object.values(laptops).map(row => rows.push(row));
         this.setState({ rows: rows });
+    }
+
+    handleFilter(filter){
+        let hasActiveFilters;
+        hasActiveFilters = filter? true : false;
+
+        this.setState({ filtering: hasActiveFilters });
+        
+        if(!hasActiveFilters) {this.getLaptops(); return };
+
+        if(filter.filterName === "Descripción")
+            this.getLaptops(DESCRIPTION_UTL+filter.value);
+
+        if(filter.filterName === "Precio")
+            this.getLaptops(PRICE_URL+filter.value);
+        
     }
 
     render() {
@@ -65,7 +86,7 @@ class Laptops extends React.Component {
                     Productos en venta
                 </h2>
                 <br></br>
-                <FiltersContainer />
+                <LaptopFilters onFilterApply={this.handleFilter} />
                 <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
