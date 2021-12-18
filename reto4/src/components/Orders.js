@@ -6,11 +6,13 @@ import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
 import Formulario from './Formulario';
 import { withAlert } from "react-alert";
+import FiltersContainer from './FiltersContainer';
 
 import HOST from "../HostConfig";
 
 const GET_URL = `${HOST}/order/all`;
 const UPDATE_URL = `${HOST}/order/update`;
+const STATUS_URL = `${HOST}/order/state/`;
 class Orders extends React.Component {
     constructor(props) {
         super(props);
@@ -20,7 +22,8 @@ class Orders extends React.Component {
             showDetailsModal: false,
             editingItem: null,
             orderProducts: [],
-            orderQuantities: []
+            orderQuantities: [],
+            filtering: false
         };
 
         this.getOrders = this.getOrders.bind(this);
@@ -29,6 +32,7 @@ class Orders extends React.Component {
         this.openDetailModal = this.openDetailModal.bind(this);
         this.handleStateChanged = this.handleStateChanged.bind(this);
         this.saveOrder = this.saveOrder.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
 
 
         this.getOrders();
@@ -69,11 +73,39 @@ class Orders extends React.Component {
         this.getOrders()
     }
 
-    async getOrders() {
-        let orders = await getJson(GET_URL);
+    async getOrders(URL) {
+        let url = URL||GET_URL;
+        let orders = await getJson(url);
         let rows = []
         Object.values(orders).forEach(row => rows.push(row));
         this.setState({ rows: rows });
+    }
+    handleFilter(filter){
+        let hasActiveFilters;
+        hasActiveFilters = filter? true : false;
+
+        this.setState({ filtering: hasActiveFilters });
+        
+        if(!hasActiveFilters) {this.getOrders(); return };
+        let stado;
+        let IdNama;
+       
+        if(filter.filterName === "Estado"){
+            
+            stado=filter.value;
+            
+        }
+        if(filter.filterName === "IDName"){
+            
+            IdNama=filter.value;
+            
+        }
+        
+        if(stado.length>0  && IdNama > 0){
+            this.getOrders(STATUS_URL+stado+"/"+IdNama);
+        }
+        
+
     }
 
     handleStateChanged(event) {
@@ -90,6 +122,7 @@ class Orders extends React.Component {
                     Pedidos en espera
                 </h2>
                 <br></br>
+                <FiltersContainer onFilterApply={this.handleFilter}/>
                 <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
