@@ -6,11 +6,14 @@ import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
 import Formulario from './Formulario';
 import { withAlert } from "react-alert";
+import FilterOrder from './FilterOrder';
 
 import HOST from "../HostConfig";
 
 const GET_URL = `${HOST}/order/all`;
 const UPDATE_URL = `${HOST}/order/update`;
+const STATUS_URL = `${HOST}/order/state/`;
+const DATE_URL = `${HOST}/order/date/`;
 class Orders extends React.Component {
     constructor(props) {
         super(props);
@@ -20,7 +23,8 @@ class Orders extends React.Component {
             showDetailsModal: false,
             editingItem: null,
             orderProducts: [],
-            orderQuantities: []
+            orderQuantities: [],
+            filtering: false
         };
 
         this.getOrders = this.getOrders.bind(this);
@@ -29,6 +33,7 @@ class Orders extends React.Component {
         this.openDetailModal = this.openDetailModal.bind(this);
         this.handleStateChanged = this.handleStateChanged.bind(this);
         this.saveOrder = this.saveOrder.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
 
 
         this.getOrders();
@@ -60,7 +65,7 @@ class Orders extends React.Component {
 
     openEditModal(event) {
         let id = event.target.dataset.id;
-        let item = this.state.rows.find(r => `${r.id}` === id)
+        let item = this.state.rows.find(r => `${r.id}` === id);
         this.setState({ editingItem: item, showEditModal: true });
     }
 
@@ -69,11 +74,40 @@ class Orders extends React.Component {
         this.getOrders()
     }
 
-    async getOrders() {
-        let orders = await getJson(GET_URL);
-        let rows = []
+    async getOrders(URL) {
+        let url = URL||GET_URL;
+        let orders = await getJson(url);
+        let rows = [];
         Object.values(orders).forEach(row => rows.push(row));
         this.setState({ rows: rows });
+    }
+
+    handleFilter(filter){
+        let hasActiveFilters;
+        hasActiveFilters = filter? true : false;
+
+        this.setState({ filtering: hasActiveFilters });
+        
+        if(!hasActiveFilters) {this.getOrders(); return };
+        let stado;
+        let IdNama;
+        
+        if(filter.filterName === "Estado"){
+            stado=filter.value.Estado;
+            IdNama = filter.value.IDName;
+
+            if(stado.length>0  && IdNama > 0){
+                this.getOrders(STATUS_URL+stado+"/"+IdNama);
+            }
+        }
+
+        if(filter.filterName === "Fecha"){
+            let fecha = filter.value.Fecha;
+            let usuario = filter.value.IDName;
+            this.getOrders(DATE_URL+fecha+"/"+usuario);
+        }
+        
+
     }
 
     handleStateChanged(event) {
@@ -90,6 +124,7 @@ class Orders extends React.Component {
                     Pedidos en espera
                 </h2>
                 <br></br>
+                <FilterOrder onFilterApply={this.handleFilter}/>
                 <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
