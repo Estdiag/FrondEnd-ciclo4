@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
 import Formulario from './Formulario';
 import { withAlert } from "react-alert";
-import FiltersContainer from './FiltersContainer';
+import FilterOrder from './FilterOrder';
 
 import HOST from "../HostConfig";
 
@@ -89,18 +89,12 @@ class Orders extends React.Component {
         if(!hasActiveFilters) {this.getOrders(); return };
         let stado;
         let IdNama;
-       
-        if(filter.filterName === "Estado"){
-            
-            stado=filter.value;
-            
-        }
-        if(filter.filterName === "IDName"){
-            
-            IdNama=filter.value;
-            
-        }
         
+        if(filter.filterName === "Estado"){
+            stado=filter.value.Estado;
+            IdNama = filter.value.IDName;
+        }
+
         if(stado.length>0  && IdNama > 0){
             this.getOrders(STATUS_URL+stado+"/"+IdNama);
         }
@@ -122,7 +116,7 @@ class Orders extends React.Component {
                     Pedidos en espera
                 </h2>
                 <br></br>
-                <FiltersContainer onFilterApply={this.handleFilter}/>
+                <FilterOrder onFilterApply={this.handleFilter}/>
                 <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
