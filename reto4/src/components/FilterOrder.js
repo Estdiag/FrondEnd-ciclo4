@@ -15,11 +15,7 @@ class FilterOrder extends React.Component {
     };
 
     this.getFilters = this.getFilters.bind(this);
-<<<<<<< HEAD
     this.OrderFilter = this.OrderFilter.bind(this);
-=======
-    this.StatusFilter = this.StatusFilter.bind(this);
->>>>>>> 5187cd885d6315eb2fb3c8b630fa263ea7f95207
     this.onFilterApply = props.onFilterApply;
     this.getUsers();
   
@@ -27,11 +23,7 @@ class FilterOrder extends React.Component {
 
   getFilters() {
     
-<<<<<<< HEAD
     return [this.OrderFilter];
-=======
-    return [this.StatusFilter];
->>>>>>> 5187cd885d6315eb2fb3c8b630fa263ea7f95207
   }
   
   render() {
@@ -48,7 +40,6 @@ class FilterOrder extends React.Component {
     filtersValue[valueName] = event.target.value;
     this.setState({filtersValue});
     let newEvent = new CustomEvent('statusFilter', { detail: filtersValue });
-<<<<<<< HEAD
     if(valueName === "Fecha" || filtersValue.Fecha){
       callback("Fecha")(newEvent);
       return;
@@ -57,12 +48,6 @@ class FilterOrder extends React.Component {
   }
 
   OrderFilter(onFilterChange) {
-=======
-    callback("Estado")(newEvent);
-  }
-
-  StatusFilter(onFilterChange) {
->>>>>>> 5187cd885d6315eb2fb3c8b630fa263ea7f95207
     return (
       <>
         
@@ -79,7 +64,6 @@ class FilterOrder extends React.Component {
             </Form.Select>
           </Form.Group>
           <Form.Group className="col-md-5 mx-auto">
-<<<<<<< HEAD
             <Form.Label>Filtar por Fecha</Form.Label>
             <Form.Control type="date" onChange={this.buildValue("Fecha", onFilterChange)}/>
           </Form.Group>
@@ -88,12 +72,6 @@ class FilterOrder extends React.Component {
             <Form.Select onChange={this.buildValue("IDName", onFilterChange)}>
               <option selected disabled value="">
                 Selecciona la persona
-=======
-            <Form.Label>Elija a la perona</Form.Label>
-            <Form.Select onChange={this.buildValue("IDName", onFilterChange)}>
-              <option selected disabled value="">
-                Selecciona la perona
->>>>>>> 5187cd885d6315eb2fb3c8b630fa263ea7f95207
               </option>
               {this.state.rows.map((row) => {
                 return (

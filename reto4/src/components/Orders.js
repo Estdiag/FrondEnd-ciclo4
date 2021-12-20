@@ -81,27 +81,6 @@ class Orders extends React.Component {
         Object.values(orders).forEach(row => rows.push(row));
         this.setState({ rows: rows });
     }
-    handleFilter(filter){
-        let hasActiveFilters;
-        hasActiveFilters = filter? true : false;
-
-        this.setState({ filtering: hasActiveFilters });
-        
-        if(!hasActiveFilters) {this.getOrders(); return };
-        let stado;
-        let IdNama;
-        
-        if(filter.filterName === "Estado"){
-            stado=filter.value.Estado;
-            IdNama = filter.value.IDName;
-        }
-
-        if(stado.length>0  && IdNama > 0){
-            this.getOrders(STATUS_URL+stado+"/"+IdNama);
-        }
-        
-
-    }
 
     handleFilter(filter){
         let hasActiveFilters;
